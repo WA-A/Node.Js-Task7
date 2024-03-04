@@ -1,10 +1,12 @@
 import UserModel from './../../../../Modle/UserModle.js';
-
+import bcrypt from'bcrypt';
 
 export const SignUp = async (req,res)=>{
     const{UserName,Email,Password}= req.body;
-    const CreateUser = new UserModel({UserName,Email,Password});
+    const hashPassword = await bcrypt.hash(Password,8);
+    const CreateUser = new UserModel({UserName,Email,Password:hashPassword});
     const user = await CreateUser.save();
+
     return res.json({message:"success",user});
 }
 

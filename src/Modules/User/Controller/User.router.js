@@ -5,6 +5,6 @@ const router = Router();
 
 router.get("/getusers",UserController.GetUsers);
 router.delete("/deleteuser/:id",UserController.DeleteUser);
-router.put("/updateuser/:id",UserController.UpdateUser);
+router.patch("/updateuser",UserController.UpdateUser);
 
 export default router;

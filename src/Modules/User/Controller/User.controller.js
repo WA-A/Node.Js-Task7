@@ -18,14 +18,19 @@ export const GetUsers =  async (req,res)=>{
    }
 
    export const UpdateUser =  async (req,res)=>{
-    const {id} = req.params;
+    // put token from login in update // so definr a user by token
+    const {token} = req.headers;
+    const decoded = jwt.verify(token.process.env.TOKEN);   // verify : is sure if token from it or no (not user modify)
+    const id = decoded.id;
     const {Email} = req.body;
-    const user = await UserModel.findByIdAndUpdate({_id:id},{Email}
-        );
-      if(user.modifiedCount  > 0){
+    const user = await UserModel.findByIdAndUpdate({_id:id},{Email});
+      
+    return res.json({message:"success",user});
+    
+    /*if(user.modifiedCount  > 0){
         return res.json({message:"success",user});
       }
-      return res.json({message:"error while updating"});
+      return res.json({message:"error while updating"});*/
    }
 
 

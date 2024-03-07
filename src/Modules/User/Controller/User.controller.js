@@ -6,16 +6,16 @@ export const GetUsers =  async (req,res)=>{
    }
 
    export const DeleteUser =  async (req,res)=>{
-    const {id} = req.params
-    const users = await UserModel.deleteOne({_id:id});
-    if(users.deletedCount>0){
+    const {token} = req.headers;
+    if(!token){
+        return res.json({message:"token is required"});
+    }
+    const decoded =  jwt.verify(token.process.env.TOKEN);
+    const users = await UserModel.deleteOne({_id:decoded.id});
         return res.json({message:"success",users})
     }
-    else{
-        return res.json({message:"Invalid Data"});
-    }
     
-   }
+   
 
    export const UpdateUser =  async (req,res)=>{
     // put token from login in update // so definr a user by token

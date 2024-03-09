@@ -1,10 +1,13 @@
 import UserModel from './../../../../Modle/UserModle.js';
 import bcrypt from'bcryptjs';
 import jwt from 'jsonwebtoken';
+import { RegisterSchema } from '../../User/User.validation.js';
 
 export const SignUp = async (req,res)=>{
     try{
     const{UserName,Email,Password}= req.body;
+    const result = RegisterSchema.validate({UserName,Email,Password,cPassword},{abortEarly:false})
+    return res.json({result});
     const hashPassword = await bcrypt.hash (Password,parseInt(process.env.SALTORROUNDS));
     const CreateUser = new UserModel({UserName,Email,Password:hashPassword});
     const user = await CreateUser.save();
